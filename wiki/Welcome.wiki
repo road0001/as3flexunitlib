@@ -17,4 +17,4 @@ The FlexUnit project contains the following features:
   * [http://weblogs.macromedia.com/swebster/ Steven Webster]
   * [http://www.adob.com/ Jason Williams]
 
-This project was contributed to the open source community by [http://www.adobe.com Adobe] and was originally hosted on [http://labs.adobe.com/wiki/index.php/ActionScript_3:resources:apis:libraries Adobe Labs].
+This project was originally hosted on [http://labs.adobe.com/wiki/index.php/ActionScript_3:resources:apis:libraries Adobe Labs].
