@@ -1,0 +1,18 @@
+#labels Featured
+FlexUnit is a unit testing framework for Flex and ActionScript 3.0 applications. It mimics the functionality of JUnit, a Java unit testing framework, and comes with a graphical test runner.
+
+
+
+= Details =
+
+The FlexUnit project contains the following features:
+  * Provides unit test framework for ActionScript 3 code in Flex and ActionScrpipt 3 projects and libraries.
+  * Graphical Test Runner to run unit tests
+
+=Authors=
+  *[http://weblogs.macromedia.com/mchotin/ Matt Chotin]
+  *[http://danieldura.com/ Daniel Dura]
+  *[http://weblogs.macromedia.com/amcleod Alistair McLeod]
+  *[http://www.adobe.com/ Tom Ruggles]
+  *[http://weblogs.macromedia.com/swebster/ Steven Webster]
+  *[http://www.adob.com/ Jason Williams]
