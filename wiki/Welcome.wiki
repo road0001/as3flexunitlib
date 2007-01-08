@@ -10,9 +10,9 @@ The FlexUnit project contains the following features:
   * Graphical Test Runner to run unit tests
 
 =Authors=
-  *[http://weblogs.macromedia.com/mchotin/ Matt Chotin]
-  *[http://danieldura.com/ Daniel Dura]
-  *[http://weblogs.macromedia.com/amcleod Alistair McLeod]
-  *[http://www.adobe.com/ Tom Ruggles]
-  *[http://weblogs.macromedia.com/swebster/ Steven Webster]
-  *[http://www.adob.com/ Jason Williams]
+  * [http://weblogs.macromedia.com/mchotin/ Matt Chotin]
+  * [http://danieldura.com/ Daniel Dura]
+  * [http://weblogs.macromedia.com/amcleod Alistair McLeod]
+  * [http://www.adobe.com/ Tom Ruggles]
+  * [http://weblogs.macromedia.com/swebster/ Steven Webster]
+  * [http://www.adob.com/ Jason Williams]
