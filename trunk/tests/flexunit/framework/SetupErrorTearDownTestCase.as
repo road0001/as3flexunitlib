@@ -33,7 +33,7 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
 import flexunit.framework.*;

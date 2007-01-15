@@ -33,7 +33,7 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
 import flexunit.framework.*;
@@ -68,7 +68,7 @@ public class TestTestCase extends TestCase
 
     public function testCaseToString() : void
     {
-        Assert.assertEquals( "testCaseToString (flexunit.framework.tests::TestTestCase)", toString() );
+        Assert.assertEquals( "testCaseToString (flexunit.framework::TestTestCase)", toString() );
     }
 
 //------------------------------------------------------------------------------

@@ -33,24 +33,24 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
 import flexunit.framework.*;
 
-public class SetupErrorTestCase extends ErrorTestCase
+public class SuccessTestCase extends TestCase
 {
-
-    public function SetupErrorTestCase(name : String)
+    public function SuccessTestCase(name : String):void
     {
         super(name);
     }
 
-    override public function setUp() : void
+    public function testSuccess():void
     {
-        throw new Error();    
+        expectedResult = true;
     }
 
+    public var expectedResult : Boolean = false;
 }
 
 }
