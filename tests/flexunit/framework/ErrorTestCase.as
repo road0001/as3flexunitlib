@@ -33,20 +33,24 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
-import flash.events.Event;
+import flexunit.framework.*;
 
-public class ValueEvent extends Event
+public class ErrorTestCase extends TestCase
 {
-    public function ValueEvent(value : String)
+
+    public function ErrorTestCase(name : String):void
     {
-        super("value");
-        this.value = value;
+        super(name);
     }
 
-    public var value : String;
+    public function throwError():void
+    {
+        throw new Error();
+    }
+
 }
 
 }

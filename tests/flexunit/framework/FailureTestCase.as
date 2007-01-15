@@ -33,24 +33,22 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
 import flexunit.framework.*;
 
-public class ErrorTestCase extends TestCase
+public class FailureTestCase extends TestCase
 {
-
-    public function ErrorTestCase(name : String):void
+    public function FailureTestCase(name : String):void
     {
         super(name);
     }
 
-    public function throwError():void
+    public function testFailure():void
     {
-        throw new Error();
+        fail("intentional failure");
     }
-
 }
 
 }

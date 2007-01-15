@@ -33,25 +33,29 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
 import flexunit.framework.*;
 
-public class TearDownTestCase extends ErrorTestCase
+public class TearDownErrorTestCase extends TearDownTestCase
 {
 
-    public function TearDownTestCase(name : String)
+    public function TearDownErrorTestCase(name : String)
     {
         super(name);
     }
 
-    override public function tearDown() : void
+    public function testSuccess() : void
     {
-        expectedResult = true;
+
     }
 
-    public var expectedResult : Boolean = false;
+    override public function tearDown() : void
+    {
+        super.tearDown();
+        throw new Error("tearDown");
+    }
 
 }
 

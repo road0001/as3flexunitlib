@@ -33,29 +33,61 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
-import flexunit.framework.*;
+import flash.events.Event;
+import flash.events.EventDispatcher;
 
-public class TearDownErrorTestCase extends TearDownTestCase
+import flash.utils.Timer;
+
+public class AsynchronousValueDispatcher extends EventDispatcher
 {
-
-    public function TearDownErrorTestCase(name : String)
+    public function AsynchronousValueDispatcher()
     {
-        super(name);
+        timer = new Timer(100, 1);
+        timer.addEventListener("timer", timeout);
     }
 
-    public function testSuccess() : void
+    public function dispatchValue(value : String, time : int) : void
     {
-
+        this.value = value;
+        if (time > 0)
+        {
+            //BUG 114824 WORKAROUND - This bug is marked as fixed, but removing
+            //the workaround causes the unit tests to fail. Need to look into this.
+            timer = new Timer(time, 1);
+            timer.addEventListener("timer", timeout);
+            //END WORKAROUND
+            //timer.delay = time;
+            timer.start();
+        }
+        else
+        {
+            timeout(null);
+        }
     }
 
-    override public function tearDown() : void
+    public function dispatchError(time : int) : void
     {
-        super.tearDown();
-        throw new Error("tearDown");
+        dispatchValue("ERROR", time);
     }
+
+
+    public function timeout(event : Event) : void
+    {
+        if (value == "ERROR")
+        {
+            throw new Error();
+        }
+        else
+        {
+            dispatchEvent(new ValueEvent(value));
+        }
+    }
+
+    private var timer : Timer;
+    private var value : String;
 
 }
 

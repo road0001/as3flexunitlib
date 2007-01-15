@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Adobe Systems Incorporated(r) Source Code License Agreement
 	Copyright(c) 2005 Adobe Systems Incorporated. All rights reserved.
 	
@@ -33,24 +33,26 @@
 	ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package flexunit.framework.tests
+package flexunit.framework
 {
 
-import flexunit.framework.TestSuite;
+import flexunit.framework.*;
 
-public class AllFrameworkTests
+public class TearDownTestCase extends ErrorTestCase
 {
-	public static function suite() : TestSuite
-	{
-		var testSuite:TestSuite = new TestSuite();		
-		
-		testSuite.addTestSuite( TestAssert );
-		testSuite.addTestSuite( TestTestCase );
-		testSuite.addTestSuite( TestTestListener );
-		testSuite.addTestSuite( TestAsynchronous );
-		
-		return testSuite;
-	}
+
+    public function TearDownTestCase(name : String)
+    {
+        super(name);
+    }
+
+    override public function tearDown() : void
+    {
+        expectedResult = true;
+    }
+
+    public var expectedResult : Boolean = false;
+
 }
 
 }

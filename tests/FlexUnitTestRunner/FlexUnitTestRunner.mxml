@@ -5,7 +5,7 @@
 	<mx:Script>
 		<![CDATA[
 			
-			import flexunit.framework.tests.AllFrameworkTests;
+			import flexunit.framework.AllFrameworkTests;
 			
 			private function onCreationComplete():void
 			{
