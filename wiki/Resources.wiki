@@ -6,5 +6,5 @@ This page contains articles, tutorials and other resources on how to work with t
 
 = External Resources =
   * [http://www.darronschall.com/weblog/archives/000216.cfm Getting Started with FlexUnit] Darron Schall
-  * [http://weblogs.macromedia.com/pmartin/archives/2006/06/flexunit_ant.cfm#more Using FlexUnit with Ant] Peter Martin
-
+  * [http://weblogs.macromedia.com/pmartin/archives/2006/06/flexunit_ant.cfm#more Using FlexUnit with Ant]  ([
+http://weblogs.macromedia.com/pmartin/archives/2007/01/flexunit_for_an_1.cfm Update]) Peter Martin
