@@ -55,8 +55,9 @@ public class AsyncTestHelper
     public function startAsync() : void
     {
         loadAsync();
-        if (objToPass != null)
+        if (eventHandlerQueue.length > 0)
         {
+        	
             testResult.continueRun(testCase);
         }
         else
@@ -69,15 +70,19 @@ public class AsyncTestHelper
 
     public function loadAsync() : void
     {
-        var async : Object = testCase.getNextAsync();
-        func = async.func;
-        extraData = async.extraData;
-        failFunc = async.failFunc;
+      
+           
+        /* set the timer to max timeout among all async methods.
+           This would be worst case scenario when none of the event handlers is triggered.
+           
+        */ 
         //BUG 114824 WORKAROUND
-        timer = new Timer(async.timeout, 1);
+        var maxTimeout : int = testCase.getMaxAsyncTimeout();
+        timer = new Timer(maxTimeout , 1);
         timer.addEventListener("timer", timerHandler);
         //END WORKAROUND
-        timer.delay = async.timeout;
+        timer.delay = maxTimeout;
+        
     }
 
 //------------------------------------------------------------------------------
@@ -98,19 +103,32 @@ public class AsyncTestHelper
         }
         else
         {
-            if (extraData != null)
+           /* FIFO */
+           var obj : Object = eventHandlerQueue.shift();
+           /* remove the async method before we do anything */
+           testCase.removeAsyncMethod(obj.asyncMethod);
+           /* adjust the timer to amount of timeout for this method */
+                     
+           timer.stop();
+           timer = new Timer( 1);
+           timer.addEventListener("timer", timerHandler);
+           timer.delay = obj.asyncMethod.timeout;
+            if (obj.asyncMethod.extraData != null)
             {
-                func(objToPass, extraData);
+                obj.asyncMethod.func(obj.event, obj.asyncMethod.extraData);
             }
             else
             {
-                func(objToPass);
+                obj.asyncMethod.func(obj.event);
             }
             func = null;
-            objToPass = null;
             extraData = null;
-        }
+           
+         }
+        
     }
+
+
 
 //------------------------------------------------------------------------------
 
@@ -118,22 +136,28 @@ public class AsyncTestHelper
     {
         timer.stop();
         shouldFail = true;
+        testCase.removeAllAsyncMethod();
         testResult.continueRun(testCase);
     }
 
 //------------------------------------------------------------------------------
 
-    public function handleEvent(event : Event) : void
+    public function handleEvent(event : Event, asyncMethod : AsyncMethodObject) : void
     {
         var wasReallyAsync : Boolean = timer.running;
         timer.stop();
         //if we already failed don't do anything
         if (shouldFail)
             return;
-        objToPass = event;
+        
+        
+        /* Queue up the event and associated asyncMethod information */
+        eventHandlerQueue.push({event : event, asyncMethod: asyncMethod});
+        
+        
         if (wasReallyAsync)
         {
-            testResult.continueRun(testCase);
+  			testResult.continueRun(testCase);
         }
     }
 
@@ -150,8 +174,8 @@ public class AsyncTestHelper
     private var testResult : TestResult;
 
     private var shouldFail : Boolean = false;
-    private var objToPass : Object;
-
+  
+    private var eventHandlerQueue : Array = new Array();
     private var timer : Timer;
 
 }

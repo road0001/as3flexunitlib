@@ -106,8 +106,8 @@ public class TestResult
 	private function doContinue( testCase : TestCase ) : void
 	{
         var protectedTestCase : Protectable = Protectable(new ProtectedMiddleTestCase ( testCase ));
-        doProtected( testCase, protectedTestCase );
-        if (testCase.hasAsync())
+        var success : Boolean = doProtected( testCase, protectedTestCase );
+        if (success &&  testCase.hasAsync())
         {
             testCase.startAsync();
         }
@@ -243,7 +243,10 @@ public class TestResult
 				addFailure( testCase, AssertionFailedError( error ) );
 			else
 				addError( testCase, error );
+			
+			
 		}
+		
 		return success;
 	}
 
