@@ -112,7 +112,7 @@ public class AsynchronousTestCase extends TestCase
     {
         var actual : String = event.value;
         Assert.assertEquals(expected, actual);
-        addAsync(handleValue, TIME_SYNC, VALUE_2);
+        dispatcher.addEventListener("value", addAsync(handleValue, TIME_SYNC , VALUE_2));
         dispatcher.dispatchValue(VALUE_2, TIME_PASS);
     }
 
@@ -161,7 +161,7 @@ public class AsynchronousTestCase extends TestCase
     public function testTimeoutFunctionPass() : void
     {
         dispatcher.addEventListener("value", addAsync(handleValue, TIME_SYNC, VALUE_1, handleTimeoutPass));
-        dispatcher.dispatchValue(VALUE_1, TIME_FAIL);
+        dispatcher.dispatchValue(VALUE_1, TIME_PASS);
     }
 
     public function handleTimeoutPass(expected : String) : void

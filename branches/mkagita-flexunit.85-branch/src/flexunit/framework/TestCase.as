@@ -36,6 +36,10 @@ package flexunit.framework
 {
 
 import flash.utils.*;
+import mx.utils.ArrayUtil;
+import flexunit.utils.ArrayList;
+import flexunit.utils.Iterator;
+
 
 /**
  * The Base Class for test cases. A Test case defines the fixture in which to run multiple tests. 
@@ -143,7 +147,7 @@ public class TestCase extends Assert implements Test
     {
         super();
         this.methodName = methodName;
-        asyncMethods = new Array();
+        asyncMethods = new ArrayList();
     }
 
 //------------------------------------------------------------------------------
@@ -266,7 +270,7 @@ public class TestCase extends Assert implements Test
             fail("No test method to run");
         }
 
-        if (asyncTestHelper != null)
+        if (asyncTestHelper != null )
         {
             asyncTestHelper.runNext();
         }
@@ -295,8 +299,11 @@ public class TestCase extends Assert implements Test
         {
             asyncTestHelper = new AsyncTestHelper(this, testResult);
         }
-        asyncMethods.push({func: func, timeout: timeout, extraData: passThroughData, failFunc: failFunc});
-        return asyncTestHelper.handleEvent;
+        
+        var asyncMethod : AsyncMethodObject = new AsyncMethodObject(asyncTestHelper, func, timeout, passThroughData, failFunc);
+        asyncMethods.addItem(asyncMethod);
+        return asyncMethod.handleEvent; 
+       
     }
 
 //------------------------------------------------------------------------------
@@ -306,7 +313,7 @@ public class TestCase extends Assert implements Test
  */
     public function hasAsync() : Boolean
     {
-        return asyncMethods.length > 0;
+        return asyncMethods.length() > 0;
     }
 
 //------------------------------------------------------------------------------
@@ -320,15 +327,7 @@ public class TestCase extends Assert implements Test
     }
 
 //------------------------------------------------------------------------------
-/**
- * The AsyncTestHelper will call this when it's ready for to start the next async.  It's possible that
- * it will need to get access to it even before async has been started if the call didn't actually end
- * up being asynchronous.
- */
-    public function getNextAsync() : Object
-    {
-        return asyncMethods.shift();
-    }
+
 
 //------------------------------------------------------------------------------
 
@@ -361,6 +360,7 @@ public class TestCase extends Assert implements Test
 		return methodNames;
 	}
 	
+	
 	private function isTestMethod( name:String ) : Boolean
 	{
 			//var pattern:RegExp = /test*/;
@@ -373,6 +373,37 @@ public class TestCase extends Assert implements Test
 	
 //------------------------------------------------------------------------------	
 	
+   public function getMaxAsyncTimeout() : int {
+   	  
+   	    var max : int = 1;
+   	    var itr : Iterator = asyncMethods.iterator();
+   	    
+   	    while(itr.hasNext()) {
+   	    	var asyncMethod : AsyncMethodObject = AsyncMethodObject(itr.next());
+   	    	
+   	    	if(asyncMethod.timeout > max)
+   	    	   max = asyncMethod.timeout;
+   	    }
+   	    return max;
+   	    
+   }
+   
+ 
+   public function removeAllAsyncMethod() : void {
+   			for each (var elem : AsyncMethodObject in this.asyncMethods) {
+   				elem.setDead();
+   			}
+   			asyncMethods.clear();	 
+   	     
+   
+   }
+   public function removeAsyncMethod(asyncMethod : AsyncMethodObject ) : void {
+   			/* set this thing as invoked */
+   			asyncMethod.setDead();
+   			asyncMethods.removeItem(asyncMethod);	 
+   }
+  
+ 
 /**
  *	An array of all the test methods for this test case.
  */	
@@ -382,7 +413,7 @@ public class TestCase extends Assert implements Test
  * The method name of the individual test to be run
  */
     public var methodName : String;
-    private var asyncMethods : Array;
+    private var asyncMethods : ArrayList;
     private var asyncTestHelper : AsyncTestHelper;
     private var testResult : TestResult;
 }
