@@ -37,26 +37,26 @@
 		 implements="flexunit.flexui.IFlexWriter" creationComplete="onCreationComplete()">
 	<mx:Script>
 		<![CDATA[
-		
+
 		import flexunit.framework.TestCase;
 		import flexunit.framework.Test;
 		import flexunit.framework.AssertionFailedError;
 		import flexunit.flexui.TestRunner;
 		import flexunit.flexui.IFlexWriter;
-		
+
 		import mx.collections.ListCollectionView;
-		 		
+
 		private var _totalTests:uint = 0;
 		private var _totalErrors:uint = 0;
 		private var _totalFailures:uint = 0;
 		private var _numTestsRun:uint = 0;
-		
+
 		public var test:Test;
-		
+
 		public function onCreationComplete():void
 		{
 		}
-		
+
 		public function startTest():void
 		{
 			if( test != null )
@@ -71,15 +71,15 @@
 				
 				flexunit.flexui.TestRunner.run( test, this );
 			}
-		}		
-		
+		}
+
 		private function updateLabels():void
 		{
 			runLabel.htmlText = "<b>Run:</b> "+_numTestsRun.toString()+"/"+_totalTests.toString();
 			errorsLabel.htmlText = "<b>Errors:</b> "+_totalErrors.toString();
 			failuresLabel.htmlText = "<b>Failures:</b> "+_totalFailures.toString();
 		}
-		
+
 		private function updateProgress():void
 		{
 			progressBar.setProgress( _numTestsRun, _totalTests );
@@ -87,7 +87,7 @@
 			if( _totalErrors > 0 || _totalFailures > 0 )
 				progressBar.setStyle("barColor",0xFF0000);
 		}
-		
+
 		private function addFailureToList( test:Test, error:Error ):void
 		{
 			var t:TestCase = test as TestCase;
@@ -99,7 +99,7 @@
 				onTestSelected();
 			}
 		}
-		
+
 		private function onTestSelected():void
 		{
 			var list:List = (testTabs.selectedIndex == 0) ? testFailures : allTestsList;
@@ -110,7 +110,7 @@
 				else
 					stackTrace.text = "";
 		}
-		
+
 		private function addTestToList( success:Boolean, test:Test, error:Error = null ):void
 		{
 			var t:TestCase = test as TestCase;
@@ -123,16 +123,16 @@
 				onTestSelected();
 			}			
 		}
-		
+
 		//---------------------------------------------------------------------
 		// IFlexWriter Methods
 		//---------------------------------------------------------------------
-		
+
 		public function onTestStart( test:Test ) : void
 		{
 			
 		}
-		
+
 		public function onTestEnd( test:Test ) : void
 		{
 			_numTestsRun++;
@@ -140,45 +140,43 @@
 			updateLabels();
 			updateProgress();
 		}
-		
+
 		public function onAllTestsEnd() : void
 		{
 			progressBar.setProgress(100,100);
-			if( _totalErrors == 0 && _totalFailures == 0 )
-				progressBar.setStyle("barColor",0x00FF00);
 		}
-		
+
 		public function onSuccess( test:Test ):void
 		{
 			addTestToList( true, test );
 		}
-		
- 	   	public function onError( test:Test, error:Error ) : void
- 	   	{
- 	   		_totalErrors++;
- 	   		addFailureToList( test, error );
- 	   		addTestToList( false, test, error );
- 	   	}
- 	   	
+
+		public function onError( test:Test, error:Error ) : void
+		{
+			_totalErrors++;
+			addFailureToList( test, error );
+			addTestToList( false, test, error );
+		}
+
 		public function onFailure( test:Test, error:AssertionFailedError ) : void
 		{
 			_totalFailures++;
 			addFailureToList( test, error );
 			addTestToList( false, test, error );
 		}
-		
+
 		]]>
 	</mx:Script>
 	<mx:Canvas width="100%" height="100%">
 		<mx:Panel backgroundAlpha="0.4" title="Test Runner" paddingBottom="10" width="100%" height="100%">
 			<mx:HBox width="100%">
 				<mx:HBox width="50%" height="20" horizontalAlign="left" paddingLeft="0" paddingRight="10">
-					<mx:ProgressBar width="100%" trackHeight="12" id="progressBar" labelPlacement="left" label="Running..." mode="manual" />
+					<mx:ProgressBar width="100%" trackHeight="12" id="progressBar" labelPlacement="left" label="Running..." mode="manual" barColor="0x00ff00"/>
 				</mx:HBox>
 				<mx:HBox width="50%" height="20" horizontalAlign="right">
 					<mx:Label id="runLabel" paddingRight="10" />
 					<mx:Label id="errorsLabel" text="Errors: 0" paddingRight="10" />
-					<mx:Label id="failuresLabel" text="Failures: 0" />					
+					<mx:Label id="failuresLabel" text="Failures: 0" />
 				</mx:HBox>
 			</mx:HBox>
 			<mx:HDividedBox width="100%" height="100%">
@@ -191,20 +189,20 @@
 					</mx:Canvas>
 					<mx:Canvas label="All Tests" width="100%" height="100%">
 						<mx:List id="allTestsList" width="100%" height="100%" borderStyle="none"
-								 change="onTestSelected()" />								
+								 change="onTestSelected()" />
 					</mx:Canvas>
 			<!--	<mx:Canvas label="Hierarchy" width="100%" height="100%">
 						<mx:Tree id="testHierarchy" width="100%" height="100%" borderStyle="none" />
 					</mx:Canvas> -->
-				</mx:TabNavigator>					
+				</mx:TabNavigator>
 				<mx:VBox width="50%" height="100%">
 					<mx:HBox width="100%" height="15" paddingBottom="0" 
 								paddingLeft="0" paddingRight="0" paddingTop="0">
 						<mx:Label text="Stack Trace"></mx:Label>
-					</mx:HBox>				
+					</mx:HBox>
 					<!-- <mx:List id="failureStackTrace" width="100%" height="100%" borderStyle="none" /> -->
 					<mx:TextArea id="stackTrace" width="100%" height="100%" borderStyle="none" wordWrap="false" />
-				</mx:VBox>				
+				</mx:VBox>
 			</mx:HDividedBox>
 		</mx:Panel>
 	</mx:Canvas>
