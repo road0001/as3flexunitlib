@@ -1,6 +1,10 @@
 #labels Featured
 This page contains articles, tutorials and other resources on how to work with the FlexUnit ActionScript Unit Testing framework.
 
+As of August 20, 2008, FlexUnit will not longer be actively developed on Google Code. It is not being maintained at:
+
+[http://opensource.adobe.com/wiki/display/flexunit/]
+
 = Articles / Tutorials =
  * none yet
 
